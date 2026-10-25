@@ -42,6 +42,13 @@ body {
   font-weight: bold;
   flex: 1;
 }
+.todo-container .add-task input::placeholder {
+  color: #eee;
+  transition: calc(var(--main-tranition) + .3s);
+}
+.todo-container .add-task input:focus::placeholder {
+  opacity: 0;
+}
 .todo-container .add-task .add-btn {
   background: #fff;
   width: 46px;
@@ -78,6 +85,12 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+.todo-container .task-content .task-box .buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
 .todo-container .task-content .task-box.completed {
   text-decoration: line-through;
 }
@@ -88,14 +101,16 @@ body {
 .todo-container .task-content .complete-btn,
 .todo-container .task-content .delete-btn {
   color: #777;
+  font-size: 20px;
+  transition: var(--main-tranition);
   cursor: pointer;
 }
 .todo-container .task-content .complete-btn:hover {
-  color:#4caf50;
+  color:var(--primary-color);
   transform: scale(1.05);
 }
 .todo-container .task-content .complete-btn:active {
-  color:#44cf49;
+  color: #127a70;
   transform: scale(0.9);
 }
 .todo-container .task-content .delete-btn:hover {
@@ -127,5 +142,5 @@ body {
   color: #f44336;
 }
 .tasks-stats .tasks-completed span {
-  color: #03a9f4;
+  color: var(--primary-color);
 }
