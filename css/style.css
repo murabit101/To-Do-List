@@ -22,11 +22,13 @@ body {
   background-color: var(--wallpaper-color);
   width: 600px;
   margin: 30px auto 0;
+  border-radius: 25px 25px 0 0;
 }
 /* ===== Add Task Section ===== */
 .todo-container .add-task {
   background-color: var(--primary-color);
   padding: 15px;
+  border-radius: 25px 25px 0 0;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -62,17 +64,68 @@ body {
 }
 /* ===== Tasks Content Box ===== */
 .todo-container .task-content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.todo-container .task-content > span {
+  background-color: #fff;
+  padding: 15px;
+}
+.todo-container .task-content .task-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.todo-container .task-content .task-box.completed {
+  text-decoration: line-through;
 }
 .todo-container .task-content .no-tasks-message {
+  color: #777;
+  font-size: 15px;
+}
+.todo-container .task-content .complete-btn,
+.todo-container .task-content .delete-btn {
+  color: #777;
+  cursor: pointer;
+}
+.todo-container .task-content .complete-btn:hover {
+  color:#4caf50;
+  transform: scale(1.05);
+}
+.todo-container .task-content .complete-btn:active {
+  color:#44cf49;
+  transform: scale(0.9);
+}
+.todo-container .task-content .delete-btn:hover {
+  color: #f44336;
+  transform: scale(1.05);
+}
+.todo-container .task-content .delete-btn:active {
+  color: #fd2717;
+  transform: scale(0.9);
 }
 /* ===== Stats Box ===== */
-.todo-container .tasks-stats {
+.tasks-stats {
+  width: 600px;
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-between;
 }
-.todo-container .tasks-stats .tasks-count {
+.tasks-stats .tasks-count,
+.tasks-stats .tasks-completed {
+  padding: 0 10px;
+  color: #777;
+  font-size: 12px;
 }
-.todo-container .tasks-stats .tasks-count span {
+.tasks-stats .tasks-count span,
+.tasks-stats .tasks-completed span {
+  font-weight: bold;
 }
-.todo-container .tasks-stats .tasks-completed {
+.tasks-stats .tasks-count span {
+  color: #f44336;
 }
-.todo-container .tasks-stats span {
+.tasks-stats .tasks-completed span {
+  color: #03a9f4;
 }
