@@ -2,11 +2,10 @@
 let input = document.querySelector(".add-task input");
 let addBtn = document.querySelector(".add-task .add-btn");
 let tasksContainer = document.querySelector(".task-content");
-let noTasksMsg = document.querySelector(".no-tasks-message");
 let tasksCount = document.querySelector(".tasks-count span");
 let tasksCompleted = document.querySelector(".tasks-completed span");
-let countTasksNum = 0;
-let completedTasksNum = 0;
+let tasksCountDiv = document.querySelector(".tasks-count");
+let tasksCompletedDiv = document.querySelector(".tasks-completed");
 
 // Focus On Input Field
 window.onload = function () {
@@ -24,8 +23,13 @@ addBtn.addEventListener("click", function () {
       confirmButtonColor: "#009688",
     });
   } else {
-    // Remove No Task Message
-    noTasksMsg.remove();
+    // Get No Tasks Messgae Span
+    let noTasksMsg = document.querySelector(".no-tasks-message");
+    // Check If Message Span Is Existed
+    if (document.body.contains(document.querySelector(".no-tasks-message"))) {
+      // Remove No Task Message
+      noTasksMsg.remove();
+    }
     // Create A Task Box
     let mainSpan = document.createElement("span");
     mainSpan.className = "task-box";
@@ -49,15 +53,106 @@ addBtn.addEventListener("click", function () {
     tasksContainer.appendChild(mainSpan);
     // Empty The Input Field
     input.value = "";
-    // Increase The Count Tasks Var
-    tasksCount.textContent = ++countTasksNum;
-  };
+    // Calculete Tasks Function
+    calculateTasks();
+    selectAllTasks();
+  }
 });
 
-// Delete Tasks And Finish Them
+// Delete Tasks And Finish Them By Buttons
 document.addEventListener("click", (e) => {
-  // Delete A Task
-  if (e.target.classList.contains("delete-btn")) e.target.parentNode.parentNode.remove();
-  // Finish A Task
-  if (e.target.classList.contains("complete-btn")) e.target.parentNode.parentNode.classList.toggle("completed");
+  // [1] Delete A Task
+  if (e.target.classList.contains("delete-btn")) {
+    // Remove The Parent Of The Parent Of The Button
+    e.target.parentNode.parentNode.remove();
+    // Calculete Tasks Function
+    calculateTasks();
+    checkEmptyTasks();
+  }
+  // [2] Finish A Task
+  if (e.target.classList.contains("complete-btn")) {
+    // Add A (completed) Class To The Task Span
+    e.target.parentNode.parentNode.classList.toggle("completed");
+    // Calculete Tasks Function
+    calculateTasks();
+  }
+  // [3] Delete All Tasks
+  if (e.target.classList.contains("all-deleted-span-btn")) {
+    document.querySelectorAll(".task-box").forEach((task) => task.remove());
+    calculateTasks();
+    checkEmptyTasks();
+  }
+  // [4] Delete All Completed Tasks
+  if (e.target.classList.contains("all-completed-span-btn")) {
+    document.querySelectorAll(".task-box.completed").forEach((task) => task.remove());
+    calculateTasks();
+    checkEmptyTasks();
+  }
 });
+
+// Add A No Tasks Message Function
+function createNoTasksMsg() {
+  let msgSpan = document.createElement("span");
+  msgSpan.className = "no-tasks-message";
+  msgSpan.textContent = "No Tasks To Show";
+  tasksContainer.appendChild(msgSpan);
+}
+// Check Empty Tasks Function
+function checkEmptyTasks() {
+  //Check If There Is No Task In Tasks Container
+  if (document.querySelectorAll(".task-box").length === 0) {
+    deleteSelectAllTasks();
+    createNoTasksMsg();
+    calculateTasks();
+  }
+}
+// Calculate Tasks Function
+function calculateTasks() {
+  // Update Count Nums Tasks Span
+  tasksCompleted.textContent = document.querySelectorAll(
+    ".task-box.completed",
+  ).length;
+  // Update Completed Nums Tasks Span
+  tasksCount.textContent = document.querySelectorAll(".task-box").length;
+}
+
+// Buttons Of All Deleted And Finish Tasks
+function selectAllTasks() {
+  if (document.querySelectorAll(".task-box").length > 0) {
+    if (!document.querySelector(".all-deleted-span-btn")) {
+      // == [[A]] == All Deleted
+      // [1] Create All Deleted Span Button
+      let allDeletedSpanBtn = document.createElement("span");
+      allDeletedSpanBtn.classList.add("all-deleted-span-btn");
+      allDeletedSpanBtn.textContent = "Delete All";
+      // [2] Append Elements
+      tasksCountDiv.appendChild(allDeletedSpanBtn);
+    }
+    if (!document.querySelector(".all-completed-span-btn")) {
+      // == [[B]] == Finish Tasks
+      // [1] Create All Deleted Span Button
+      let allCompletedSpanBtn = document.createElement("span");
+      allCompletedSpanBtn.classList.add("all-completed-span-btn");
+      allCompletedSpanBtn.textContent = "Delete All";
+      // [2] Append Elements
+      tasksCompletedDiv.appendChild(allCompletedSpanBtn);
+    }
+  }
+}
+
+// Remove Control Buttons Completely
+function deleteSelectAllTasks() {
+  // Getting Buttons
+  let allDeletedSpanBtn = document.querySelector(".all-deleted-span-btn");
+  let allCompletedSpanBtn = document.querySelector(".all-completed-span-btn");
+
+  // Check If Buttons Are Existed
+  if (
+    document.body.contains(document.querySelector(".all-deleted-span-btn")) &&
+    document.body.contains(document.querySelector(".all-completed-span-btn"))
+  ) {
+    // Remove Buttons
+    allDeletedSpanBtn.remove();
+    allCompletedSpanBtn.remove();
+  }
+}
