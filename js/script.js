@@ -28,8 +28,10 @@ addBtn.addEventListener("click", function () {
     noTasksMsg.remove();
     // Create A Task Box
     let mainSpan = document.createElement("span");
-    mainSpan.textContent = input.value;
     mainSpan.className = "task-box";
+    // Create Paraghraph
+    let para = document.createElement("p");
+    para.textContent = input.value;
     // Create Buttons Span
     let btnsSpan = document.createElement("span");
     btnsSpan.className = "buttons";
@@ -42,6 +44,7 @@ addBtn.addEventListener("click", function () {
     // Append Elements
     btnsSpan.appendChild(taskCompleteBtn);
     btnsSpan.appendChild(taskDeleteBtn);
+    mainSpan.appendChild(para);
     mainSpan.appendChild(btnsSpan);
     tasksContainer.appendChild(mainSpan);
     // Empty The Input Field
@@ -49,4 +52,12 @@ addBtn.addEventListener("click", function () {
     // Increase The Count Tasks Var
     tasksCount.textContent = ++countTasksNum;
   };
+});
+
+// Delete Tasks And Finish Them
+document.addEventListener("click", (e) => {
+  // Delete A Task
+  if (e.target.classList.contains("delete-btn")) e.target.parentNode.parentNode.remove();
+  // Finish A Task
+  if (e.target.classList.contains("complete-btn")) e.target.parentNode.parentNode.classList.toggle("completed");
 });
